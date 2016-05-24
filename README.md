@@ -39,7 +39,7 @@ Form
 [
   {
     "key": "image",
-    "description": "Click here or drop files to upload"
+    "placeholder": "Click here or drop files to upload"
   }
 ]
 ```
