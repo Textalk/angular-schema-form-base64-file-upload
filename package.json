@@ -2,7 +2,7 @@
   "name": "angular-schema-form-base64-file-upload",
   "version": "1.0.0",
   "description": "angular schema form base64 file add-on for Angular Schema Form.",
-  "author": "kornosaurus",
+  "author": "Textalk",
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.1",

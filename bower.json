@@ -2,7 +2,7 @@
   "name": "angular-schema-form-base64-file-upload",
   "version": "1.0.0",
   "license": "MIT",
-  "author": "kornosaurus",
+  "author": "Textalk",
   "main": [
     "dist/angular-schema-form-base64-file-upload.min.js"
   ],
