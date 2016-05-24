@@ -20,6 +20,7 @@ mapping.
 
 Example
 ----
+Schema
 ```
 {
   "type": "object",
@@ -33,7 +34,7 @@ Example
   }
 }
 ```
-
+Form
 ```
 [
   {
