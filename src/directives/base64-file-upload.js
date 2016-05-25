@@ -28,11 +28,13 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           }
 
           if (!validateFile(file)) {
-            // validate
+            ngModel.$setValidity('base64FileUpload', false);
+            scope.$apply();
             return;
           }
 
           $timeout(function() {
+            ngModel.$setValidity('base64FileUpload', true);
             scope.file = file;
             scope.file.ext = file.name.split('.').slice(-1)[0];
             scope.file.src = URL.createObjectURL(file);

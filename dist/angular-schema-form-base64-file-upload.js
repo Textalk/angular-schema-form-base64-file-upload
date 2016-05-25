@@ -2,7 +2,7 @@ angular.module("templates", []).run(["$templateCache", function($templateCache) 
 angular.module('angularSchemaFormBase64FileUpload', [
   'schemaForm',
   'templates'
-]).config(function(schemaFormDecoratorsProvider, sfBuilderProvider) {
+]).config(['schemaFormDecoratorsProvider', 'sfBuilderProvider', function(schemaFormDecoratorsProvider, sfBuilderProvider) {
 
   schemaFormDecoratorsProvider.defineAddOn(
     'bootstrapDecorator',           // Name of the decorator you want to add to.
@@ -11,7 +11,7 @@ angular.module('angularSchemaFormBase64FileUpload', [
     sfBuilderProvider.stdBuilders   // List of builder functions to apply.
   );
 
-});
+}]);
 
 angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload', [
   '$timeout',
@@ -43,11 +43,13 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           }
 
           if (!validateFile(file)) {
-            // validate
+            ngModel.$setValidity('base64FileUpload', false);
+            scope.$apply();
             return;
           }
 
           $timeout(function() {
+            ngModel.$setValidity('base64FileUpload', true);
             scope.file = file;
             scope.file.ext = file.name.split('.').slice(-1)[0];
             scope.file.src = URL.createObjectURL(file);

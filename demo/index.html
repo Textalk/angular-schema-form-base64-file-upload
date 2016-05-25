@@ -31,7 +31,11 @@
           "type":"file",
           "key":"file",
           "title": "File upload",
-          "placeholder": "Click here or drop files to upload"
+          "description": "what",
+          "placeholder": "Click here or drop files to upload",
+          "validationMessage": {
+            "base64FileUpload": 'Seriously? Max file size is {{schema.maxSize}} byte, dude.'
+          }
         }];
 
         $scope.model = {};
