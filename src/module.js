@@ -1,7 +1,7 @@
 angular.module('angularSchemaFormBase64FileUpload', [
   'schemaForm',
   'templates'
-]).config(function(schemaFormDecoratorsProvider, sfBuilderProvider) {
+]).config(['schemaFormDecoratorsProvider', 'sfBuilderProvider', function(schemaFormDecoratorsProvider, sfBuilderProvider) {
 
   schemaFormDecoratorsProvider.defineAddOn(
     'bootstrapDecorator',           // Name of the decorator you want to add to.
@@ -10,4 +10,4 @@ angular.module('angularSchemaFormBase64FileUpload', [
     sfBuilderProvider.stdBuilders   // List of builder functions to apply.
   );
 
-});
+}]);
