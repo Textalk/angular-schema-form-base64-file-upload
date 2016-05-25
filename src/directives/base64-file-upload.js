@@ -10,6 +10,7 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
         scope.dropAreaHover = false;
         scope.file = undefined;
         scope.fileImagePreview = '';
+        scope.fileError = false;
 
         var validateFile = function(file) {
           var valid = true;
@@ -17,6 +18,11 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
 
           if (file.size > parseInt(schema.maxSize, 10)) {
             valid = false;
+            ngModel.$setValidity('base64FileUploadSize', false);
+            scope.$apply();
+          } else {
+            ngModel.$setValidity('base64FileUploadSize', true);
+            scope.$apply();
           }
 
           return valid;
@@ -28,30 +34,26 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           }
 
           if (!validateFile(file)) {
-            ngModel.$setValidity('base64FileUpload', false);
-            scope.$apply();
             return;
           }
 
-          $timeout(function() {
-            ngModel.$setValidity('base64FileUpload', true);
-            scope.file = file;
-            scope.file.ext = file.name.split('.').slice(-1)[0];
-            scope.file.src = URL.createObjectURL(file);
-
-            // just a simple conversion to human readable size.
-            // For now not bothering with large sizes.
-            var fileSize = file.size / 1024;
-            var unit = 'kB';
-            if (fileSize > 1024) {
-              fileSize = fileSize / 1024;
-              unit = 'MB';
-            }
-
-            scope.file.humanSize = fileSize.toFixed(1) + ' ' + unit;
-          }, 0);
-
           var reader = new FileReader();
+
+          // Timeout instead of scope.$apply()
+          scope.file = file;
+          scope.file.ext = file.name.split('.').slice(-1)[0];
+          scope.file.src = URL.createObjectURL(file);
+
+          // just a simple conversion to human readable size.
+          // For now not bothering with large sizes.
+          var fileSize = file.size / 1024;
+          var unit = 'kB';
+          if (fileSize > 1024) {
+            fileSize = fileSize / 1024;
+            unit = 'MB';
+          }
+
+          scope.file.humanSize = fileSize.toFixed(1) + ' ' + unit;
 
           reader.onloadstart = function(e) {
             $timeout(function() {
@@ -68,6 +70,7 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           };
 
           reader.readAsDataURL(file);
+          scope.$apply();
         };
 
         scope.isImage = function(file) {

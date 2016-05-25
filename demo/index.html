@@ -22,7 +22,7 @@
             "file": {
               "type": "string",
               "format": "base64",
-              "maxSize": '500000',
+              "maxSize": '5242880',
             }
           }
         }
@@ -34,7 +34,7 @@
           "description": "what",
           "placeholder": "Click here or drop files to upload",
           "validationMessage": {
-            "base64FileUpload": 'Seriously? Max file size is {{schema.maxSize}} byte, dude.'
+            "base64FileUploadSize": 'Seriously? Max file size is {{(schema.maxSize / 1024) / 1024}} MB, dude.'
           }
         }];
 

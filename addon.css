@@ -6,19 +6,26 @@
   cursor: pointer;
   border-radius: 5px;
   padding: 0 40px;
-  font-size:20px;
-  text-align:center;
   min-height: 110px;
   max-height: 110px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   border: 2px dashed rgba(0, 0, 0, 0.3);
 }
 
 .base64-file--drop-area-description {
-  padding: 40px 0;
   display: block;
   width: 100%;
+  text-align:center;
+}
+
+.base64-file--drop-area-description {
+  font-size:20px;
+}
+
+.ng-invalid-base64-file-upload-size .base64-file--drop-area {
+  border-color: #e93a29;
 }
 
 .base64-file--drop-area.file-hovering {

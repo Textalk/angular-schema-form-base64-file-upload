@@ -14,10 +14,10 @@
           <div class="base64-file--file-size">{{file.humanSize}}</div>
           <div class="base64-file--file-remove" ng-click="removeFile($event)">&#10005</div>
         </div>
-
         <span ng-show="!file" class="base64-file--drop-area-description">{{form.placeholder || 'Click here or drop files to upload'}}</span>
       </div>
     </label>
   </div>
+
   <span sf-message="form.description"></span>
 </div>
