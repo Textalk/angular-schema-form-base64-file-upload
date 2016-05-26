@@ -21,11 +21,11 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           if (file.size > parseInt(schema.maxSize, 10)) {
             valid = false;
             ngModel.$setValidity('base64FileUploadSize', false);
-            scope.$apply();
           } else {
             ngModel.$setValidity('base64FileUploadSize', true);
-            scope.$apply();
           }
+          
+          scope.$apply();
 
           return valid;
         }
@@ -41,11 +41,10 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
 
           var reader = new FileReader();
 
-          // Timeout instead of scope.$apply()
           scope.file = file;
           scope.file.ext = file.name.split('.').slice(-1)[0];
           scope.file.src = URL.createObjectURL(file);
-
+          scope.hasFile = true;
           // just a simple conversion to human readable size.
           // For now not bothering with large sizes.
           var fileSize = file.size / 1024;
@@ -87,6 +86,7 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           e.preventDefault();
           e.stopPropagation();
           scope.file = undefined;
+          scope.hasFile = false;
           ngModel.$setViewValue(undefined);
         }
 

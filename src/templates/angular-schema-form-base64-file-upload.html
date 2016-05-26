@@ -2,10 +2,10 @@
   <label class="control-label" ng-hide="form.notitle">{{form.title}}</label>
   <div base64-file-upload="form" sf-field-model schema-validate="form">
     <label>
-      <input type="file" class="base64-file--input" style="display:none;" ng-disabled="file"/>
-      <div class="base64-file--drop-area" ng-class="{'file-hovering': dropAreaHover, 'has-file': file}">
+      <input type="file" class="base64-file--input" style="display:none;" ng-disabled="hasFile"/>
+      <div class="base64-file--drop-area" ng-class="{'file-hovering': dropAreaHover, 'has-file': hasFile}">
 
-        <div class="base64-file--file" ng-show="file">
+        <div class="base64-file--file" ng-show="hasFile">
           <div class="base64-file--file-preview"
                ng-style="{'background-image': isImage(file) ? 'url(' + file.src + ')': ''}">
             <span ng-show="!isImage(file)">{{file.ext}}</span>
@@ -14,7 +14,7 @@
           <div class="base64-file--file-size">{{file.humanSize}}</div>
           <div class="base64-file--file-remove" ng-click="removeFile($event)">&#10005</div>
         </div>
-        <span ng-show="!file" class="base64-file--drop-area-description">{{form.placeholder || dropText}}</span>
+        <span ng-hide="hasFile" class="base64-file--drop-area-description">{{form.placeholder || dropText}}</span>
       </div>
     </label>
   </div>

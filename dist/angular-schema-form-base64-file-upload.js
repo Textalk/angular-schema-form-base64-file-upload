@@ -1,4 +1,4 @@
-angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("src/templates/angular-schema-form-base64-file-upload.html","<div class=\"angular-schema-form--base64-file\" ng-class=\"{\'has-error\': form.disableErrorState !== true && hasError(), \'has-success\': form.disableSuccessState !== true && hasSuccess(), \'has-feedback\': form.feedback !== false}\">\n  <label class=\"control-label\" ng-hide=\"form.notitle\">{{form.title}}</label>\n  <div base64-file-upload=\"form\" sf-field-model schema-validate=\"form\">\n    <label>\n      <input type=\"file\" class=\"base64-file--input\" style=\"display:none;\" ng-disabled=\"file\"/>\n      <div class=\"base64-file--drop-area\" ng-class=\"{\'file-hovering\': dropAreaHover, \'has-file\': file}\">\n\n        <div class=\"base64-file--file\" ng-show=\"file\">\n          <div class=\"base64-file--file-preview\"\n               ng-style=\"{\'background-image\': isImage(file) ? \'url(\' + file.src + \')\': \'\'}\">\n            <span ng-show=\"!isImage(file)\">{{file.ext}}</span>\n          </div>\n          <div class=\"base64-file--file-name\">{{file.name}}</div>\n          <div class=\"base64-file--file-size\">{{file.humanSize}}</div>\n          <div class=\"base64-file--file-remove\" ng-click=\"removeFile($event)\">&#10005</div>\n        </div>\n        <span ng-show=\"!file\" class=\"base64-file--drop-area-description\">{{form.placeholder || dropText}}</span>\n      </div>\n    </label>\n  </div>\n\n  <span class=\"help-block\" sf-message=\"form.description\"></span>\n</div>\n");}]);
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("src/templates/angular-schema-form-base64-file-upload.html","<div class=\"angular-schema-form--base64-file\" ng-class=\"{\'has-error\': form.disableErrorState !== true && hasError(), \'has-success\': form.disableSuccessState !== true && hasSuccess(), \'has-feedback\': form.feedback !== false}\">\n  <label class=\"control-label\" ng-hide=\"form.notitle\">{{form.title}}</label>\n  <div base64-file-upload=\"form\" sf-field-model schema-validate=\"form\">\n    <label>\n      <input type=\"file\" class=\"base64-file--input\" style=\"display:none;\" ng-disabled=\"hasFile\"/>\n      <div class=\"base64-file--drop-area\" ng-class=\"{\'file-hovering\': dropAreaHover, \'has-file\': hasFile}\">\n\n        <div class=\"base64-file--file\" ng-show=\"hasFile\">\n          <div class=\"base64-file--file-preview\"\n               ng-style=\"{\'background-image\': isImage(file) ? \'url(\' + file.src + \')\': \'\'}\">\n            <span ng-show=\"!isImage(file)\">{{file.ext}}</span>\n          </div>\n          <div class=\"base64-file--file-name\">{{file.name}}</div>\n          <div class=\"base64-file--file-size\">{{file.humanSize}}</div>\n          <div class=\"base64-file--file-remove\" ng-click=\"removeFile($event)\">&#10005</div>\n        </div>\n        <span ng-hide=\"hasFile\" class=\"base64-file--drop-area-description\">{{form.placeholder || dropText}}</span>\n      </div>\n    </label>\n  </div>\n\n  <span class=\"help-block\" sf-message=\"form.description\"></span>\n</div>\n");}]);
 angular.module('angularSchemaFormBase64FileUpload', [
   'schemaForm',
   'templates'
@@ -61,11 +61,11 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           if (file.size > parseInt(schema.maxSize, 10)) {
             valid = false;
             ngModel.$setValidity('base64FileUploadSize', false);
-            scope.$apply();
           } else {
             ngModel.$setValidity('base64FileUploadSize', true);
-            scope.$apply();
           }
+          
+          scope.$apply();
 
           return valid;
         }
@@ -81,11 +81,10 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
 
           var reader = new FileReader();
 
-          // Timeout instead of scope.$apply()
           scope.file = file;
           scope.file.ext = file.name.split('.').slice(-1)[0];
           scope.file.src = URL.createObjectURL(file);
-
+          scope.hasFile = true;
           // just a simple conversion to human readable size.
           // For now not bothering with large sizes.
           var fileSize = file.size / 1024;
@@ -127,6 +126,7 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           e.preventDefault();
           e.stopPropagation();
           scope.file = undefined;
+          scope.hasFile = false;
           ngModel.$setViewValue(undefined);
         }
 
