@@ -1,5 +1,5 @@
 <div class="angular-schema-form--base64-file" ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
-  <label ng-hide="form.notitle">{{form.title}}</label>
+  <label class="control-label" ng-hide="form.notitle">{{form.title}}</label>
   <div base64-file-upload="form" sf-field-model schema-validate="form">
     <label>
       <input type="file" class="base64-file--input" style="display:none;" ng-disabled="file"/>
@@ -19,5 +19,5 @@
     </label>
   </div>
 
-  <span sf-message="form.description"></span>
+  <span class="help-block" sf-message="form.description"></span>
 </div>
