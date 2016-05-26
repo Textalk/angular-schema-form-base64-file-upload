@@ -1,9 +1,9 @@
-<div class="angular-schema-form--base64-file">
+<div class="angular-schema-form--base64-file" ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
   <label ng-hide="form.notitle">{{form.title}}</label>
   <div base64-file-upload="form" sf-field-model schema-validate="form">
     <label>
       <input type="file" class="base64-file--input" style="display:none;" ng-disabled="file"/>
-      <div class="base64-file--drop-area" ng-class="{'file-hovering': dropAreaHover}">
+      <div class="base64-file--drop-area" ng-class="{'file-hovering': dropAreaHover, 'has-file': file}">
 
         <div class="base64-file--file" ng-show="file">
           <div class="base64-file--file-preview"

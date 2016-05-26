@@ -12,7 +12,6 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
         scope.file = undefined;
         scope.fileImagePreview = '';
         scope.fileError = false;
-        console.warn(base64FileUploadConfig);
         scope.dropText = base64FileUploadConfig.dropText || 'Click here or drop files to upload';
 
         var validateFile = function(file) {
