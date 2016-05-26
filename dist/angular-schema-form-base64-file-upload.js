@@ -1,8 +1,16 @@
-angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("src/templates/angular-schema-form-base64-file-upload.html","<div class=\"angular-schema-form--base64-file\">\n  <label ng-hide=\"form.notitle\">{{form.title}}</label>\n  <div base64-file-upload=\"form\" sf-field-model schema-validate=\"form\">\n    <label>\n      <input type=\"file\" class=\"base64-file--input\" style=\"display:none;\" ng-disabled=\"file\"/>\n      <div class=\"base64-file--drop-area\" ng-class=\"{\'file-hovering\': dropAreaHover}\">\n\n        <div class=\"base64-file--file\" ng-show=\"file\">\n          <div class=\"base64-file--file-preview\"\n               ng-style=\"{\'background-image\': isImage(file) ? \'url(\' + file.src + \')\': \'\'}\">\n            <span ng-show=\"!isImage(file)\">{{file.ext}}</span>\n          </div>\n          <div class=\"base64-file--file-name\">{{file.name}}</div>\n          <div class=\"base64-file--file-size\">{{file.humanSize}}</div>\n          <div class=\"base64-file--file-remove\" ng-click=\"removeFile($event)\">&#10005</div>\n        </div>\n        <span ng-show=\"!file\" class=\"base64-file--drop-area-description\">{{form.placeholder || \'Click here or drop files to upload\'}}</span>\n      </div>\n    </label>\n  </div>\n\n  <span sf-message=\"form.description\"></span>\n</div>\n");}]);
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("src/templates/angular-schema-form-base64-file-upload.html","<div class=\"angular-schema-form--base64-file\">\n  <label ng-hide=\"form.notitle\">{{form.title}}</label>\n  <div base64-file-upload=\"form\" sf-field-model schema-validate=\"form\">\n    <label>\n      <input type=\"file\" class=\"base64-file--input\" style=\"display:none;\" ng-disabled=\"file\"/>\n      <div class=\"base64-file--drop-area\" ng-class=\"{\'file-hovering\': dropAreaHover}\">\n\n        <div class=\"base64-file--file\" ng-show=\"file\">\n          <div class=\"base64-file--file-preview\"\n               ng-style=\"{\'background-image\': isImage(file) ? \'url(\' + file.src + \')\': \'\'}\">\n            <span ng-show=\"!isImage(file)\">{{file.ext}}</span>\n          </div>\n          <div class=\"base64-file--file-name\">{{file.name}}</div>\n          <div class=\"base64-file--file-size\">{{file.humanSize}}</div>\n          <div class=\"base64-file--file-remove\" ng-click=\"removeFile($event)\">&#10005</div>\n        </div>\n        <span ng-show=\"!file\" class=\"base64-file--drop-area-description\">{{form.placeholder || dropText}}</span>\n      </div>\n    </label>\n  </div>\n\n  <span sf-message=\"form.description\"></span>\n</div>\n");}]);
 angular.module('angularSchemaFormBase64FileUpload', [
   'schemaForm',
   'templates'
-]).config([
+]).provider('base64FileUploadConfig', function() {
+  this.setDropText = function (text) {
+    this.dropText = text;
+  };
+
+  this.$get = function () {
+    return this;
+  };
+}).config([
   'schemaFormProvider',
   'schemaFormDecoratorsProvider',
   'sfBuilderProvider',
@@ -31,8 +39,9 @@ angular.module('angularSchemaFormBase64FileUpload', [
 ]);
 
 angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload', [
+  'base64FileUploadConfig',
   '$timeout',
-  function($timeout) {
+  function(base64FileUploadConfig, $timeout) {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -43,6 +52,8 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
         scope.file = undefined;
         scope.fileImagePreview = '';
         scope.fileError = false;
+        console.warn(base64FileUploadConfig);
+        scope.dropText = base64FileUploadConfig.dropText || 'Click here or drop files to upload';
 
         var validateFile = function(file) {
           var valid = true;

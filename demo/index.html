@@ -14,7 +14,10 @@
 
     <script>
 
-      angular.module('test', ["schemaForm","angularSchemaFormBase64FileUpload"]).controller('FormController', function($scope) {
+      angular.module('test', ["schemaForm","angularSchemaFormBase64FileUpload"]).config(function(base64FileUploadConfigProvider) {
+        console.log(base64FileUploadConfigProvider);
+        base64FileUploadConfigProvider.setDropText('New');
+      }).controller('FormController', function($scope) {
 
         $scope.schema = {
           "type": "object",

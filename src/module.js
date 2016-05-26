@@ -1,7 +1,15 @@
 angular.module('angularSchemaFormBase64FileUpload', [
   'schemaForm',
   'templates'
-]).config([
+]).provider('base64FileUploadConfig', function() {
+  this.setDropText = function (text) {
+    this.dropText = text;
+  };
+
+  this.$get = function () {
+    return this;
+  };
+}).config([
   'schemaFormProvider',
   'schemaFormDecoratorsProvider',
   'sfBuilderProvider',

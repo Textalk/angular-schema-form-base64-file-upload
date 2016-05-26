@@ -1,6 +1,7 @@
 angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload', [
+  'base64FileUploadConfig',
   '$timeout',
-  function($timeout) {
+  function(base64FileUploadConfig, $timeout) {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -11,6 +12,8 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
         scope.file = undefined;
         scope.fileImagePreview = '';
         scope.fileError = false;
+        console.warn(base64FileUploadConfig);
+        scope.dropText = base64FileUploadConfig.dropText || 'Click here or drop files to upload';
 
         var validateFile = function(file) {
           var valid = true;
