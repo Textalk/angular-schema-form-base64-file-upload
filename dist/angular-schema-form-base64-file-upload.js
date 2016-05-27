@@ -64,7 +64,7 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           } else {
             ngModel.$setValidity('base64FileUploadSize', true);
           }
-          
+
           scope.$apply();
 
           return valid;
@@ -136,38 +136,38 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
 
         var dropArea = document.getElementsByClassName('base64-file--drop-area')[0];
 
-        dropArea.addEventListener("dragenter", function(e) {
+        var dragOver = function(e) {
           e.preventDefault();
           e.stopPropagation();
           $timeout(function() {
             scope.dropAreaHover = true;
           }, 0);
-        }, false);
+        };
 
-        dropArea.addEventListener("dragleave", function(e) {
+        var dragLeave = function(e) {
           e.preventDefault();
           e.stopPropagation();
           $timeout(function() {
             scope.dropAreaHover = false;
           }, 0);
-        }, false);
+        };
 
-        dropArea.addEventListener("dragover", function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          $timeout(function() {
-            scope.dropAreaHover = true;
-          }, 0);
-        }, false);
-
-        dropArea.addEventListener("drop", function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          $timeout(function() {
-            scope.dropAreaHover = false;
-          }, 0);
+        var drop = function(e) {
+          dragLeave(e);
           getFile(e.dataTransfer.files[0]);
-        }, false);
+        }
+
+        dropArea.addEventListener("dragenter", dragOver, false);
+        dropArea.addEventListener("dragleave", dragLeave, false);
+        dropArea.addEventListener("dragover", dragOver, false);
+        dropArea.addEventListener("drop", drop, false);
+
+        scope.$on('$destroy', function () {
+          dropArea.removeEventListener("dragenter", dragOver, false);
+          dropArea.removeEventListener("dragleave", dragLeave, false);
+          dropArea.removeEventListener("dragover", dragOver, false);
+          dropArea.removeEventListener("drop", drop, false);
+        });
 
       },
     };
