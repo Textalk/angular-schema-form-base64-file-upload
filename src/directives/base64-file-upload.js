@@ -10,7 +10,6 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
         scope.ngModel = ngModel;
         scope.dropAreaHover = false;
         scope.file = undefined;
-        scope.fileImagePreview = '';
         scope.fileError = false;
         scope.dropText = base64FileUploadConfig.dropText || 'Click here or drop files to upload';
 
