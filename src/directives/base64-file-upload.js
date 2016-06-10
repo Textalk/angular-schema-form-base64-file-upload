@@ -65,8 +65,9 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
             $timeout(function() {
               scope.loadingFile = false;
             }, 0);
-
-            ngModel.$setViewValue(e.target.result);
+            
+            var prefix = 'file:' + file.name + ';';
+            ngModel.$setViewValue(prefix + e.target.result);
           };
 
           reader.readAsDataURL(file);
