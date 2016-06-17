@@ -4,6 +4,7 @@
   "description": "angular schema form base64 file add-on for Angular Schema Form.",
   "author": "Textalk",
   "license": "MIT",
+  "main": "dist/angular-schema-form-base64-file-upload.min.js",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^1.8.0",
