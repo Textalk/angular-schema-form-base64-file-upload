@@ -2,7 +2,14 @@
   display: block;
 }
 
+[base64-file-upload] {
+  cursor: pointer;
+}
+
 .base64-file--drop-area {
+  width:100%;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
   border-radius: 5px;
   padding: 0 40px;
@@ -17,6 +24,11 @@
           flex-wrap: wrap;
   align-items: center;
   border: 2px dashed rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+.base64-file--drop-area:focus {
+  outline: none;
 }
 
 .base64-file--drop-area-description {

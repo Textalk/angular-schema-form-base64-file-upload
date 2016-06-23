@@ -94,7 +94,13 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           getFile(e.target.files[0]);
         });
 
-        var dropArea = document.getElementsByClassName('base64-file--drop-area')[0];
+        var dropArea = element.find('.base64-file--drop-area')[0];
+        var inputField = element.find('.base64-file--input')[0];
+
+        var clickArea = function(e) {
+          e.stopPropagation();
+          inputField.click();
+        }
 
         var dragOver = function(e) {
           e.preventDefault();
@@ -117,12 +123,16 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           getFile(e.dataTransfer.files[0]);
         }
 
+        dropArea.addEventListener("click", clickArea, false);
+        dropArea.addEventListener("touchstart", clickArea, false);
         dropArea.addEventListener("dragenter", dragOver, false);
         dropArea.addEventListener("dragleave", dragLeave, false);
         dropArea.addEventListener("dragover", dragOver, false);
         dropArea.addEventListener("drop", drop, false);
 
         scope.$on('$destroy', function () {
+          dropArea.removeEventListener("click", clickArea, false);
+          dropArea.removeEventListener("touchstart", clickArea, false);
           dropArea.removeEventListener("dragenter", dragOver, false);
           dropArea.removeEventListener("dragleave", dragLeave, false);
           dropArea.removeEventListener("dragover", dragOver, false);

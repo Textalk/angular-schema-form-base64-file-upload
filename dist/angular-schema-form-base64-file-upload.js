@@ -1,4 +1,4 @@
-angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("src/templates/angular-schema-form-base64-file-upload.html","<div class=\"angular-schema-form--base64-file\" ng-class=\"{\'has-error\': form.disableErrorState !== true && hasError(), \'has-success\': form.disableSuccessState !== true && hasSuccess(), \'has-feedback\': form.feedback !== false}\">\n  <label class=\"control-label\" ng-hide=\"form.notitle\">{{form.title}}</label>\n  <div base64-file-upload=\"form\" sf-field-model schema-validate=\"form\">\n    <label>\n      <input type=\"file\" class=\"base64-file--input\" style=\"display:none;\" ng-disabled=\"hasFile\"/>\n      <div class=\"base64-file--drop-area\" ng-class=\"{\'file-hovering\': dropAreaHover, \'has-file\': hasFile}\">\n\n        <div class=\"base64-file--file\" ng-show=\"hasFile\">\n          <div class=\"base64-file--file-preview\"\n               ng-style=\"{\'background-image\': isImage(file) ? \'url(\' + file.src + \')\': \'\'}\">\n            <span ng-show=\"!isImage(file)\">{{file.ext}}</span>\n          </div>\n          <div class=\"base64-file--file-name\">{{file.name}}</div>\n          <div class=\"base64-file--file-size\">{{file.humanSize}}</div>\n          <div class=\"base64-file--file-remove\" ng-click=\"removeFile($event)\">&#10005</div>\n        </div>\n        <span ng-hide=\"hasFile\" class=\"base64-file--drop-area-description\">{{form.placeholder || dropText}}</span>\n      </div>\n    </label>\n  </div>\n\n  <span class=\"help-block\" sf-message=\"form.description\"></span>\n</div>\n");}]);
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("src/templates/angular-schema-form-base64-file-upload.html","<div class=\"angular-schema-form--base64-file\" ng-class=\"{\'has-error\': form.disableErrorState !== true && hasError(), \'has-success\': form.disableSuccessState !== true && hasSuccess(), \'has-feedback\': form.feedback !== false}\">\n  <label class=\"control-label\" ng-hide=\"form.notitle\">{{form.title}}</label>\n  <div base64-file-upload=\"form\" sf-field-model schema-validate=\"form\">\n    <input type=\"file\" class=\"base64-file--input\" style=\"visibility:hidden;position:absolute;top:0;left:0;\" ng-disabled=\"hasFile\"/>\n    <button class=\"base64-file--drop-area\" ng-class=\"{\'file-hovering\': dropAreaHover, \'has-file\': hasFile}\">\n\n      <div class=\"base64-file--file\" ng-show=\"hasFile\">\n        <div class=\"base64-file--file-preview\"\n             ng-style=\"{\'background-image\': isImage(file) ? \'url(\' + file.src + \')\': \'\'}\">\n          <span ng-show=\"!isImage(file)\">{{file.ext}}</span>\n        </div>\n        <div class=\"base64-file--file-name\">{{file.name}}</div>\n        <div class=\"base64-file--file-size\">{{file.humanSize}}</div>\n        <div class=\"base64-file--file-remove\" ng-click=\"removeFile($event)\">&#10005</div>\n      </div>\n      <span ng-hide=\"hasFile\" class=\"base64-file--drop-area-description\">{{form.placeholder || dropText}}</span>\n    </button>\n  </div>\n\n  <span class=\"help-block\" sf-message=\"form.description\"></span>\n</div>\n");}]);
 angular.module('angularSchemaFormBase64FileUpload', [
   'schemaForm',
   'templates'
@@ -134,7 +134,13 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           getFile(e.target.files[0]);
         });
 
-        var dropArea = document.getElementsByClassName('base64-file--drop-area')[0];
+        var dropArea = element.find('.base64-file--drop-area')[0];
+        var inputField = element.find('.base64-file--input')[0];
+
+        var clickArea = function(e) {
+          e.stopPropagation();
+          inputField.click();
+        }
 
         var dragOver = function(e) {
           e.preventDefault();
@@ -157,12 +163,16 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
           getFile(e.dataTransfer.files[0]);
         }
 
+        dropArea.addEventListener("click", clickArea, false);
+        dropArea.addEventListener("touchstart", clickArea, false);
         dropArea.addEventListener("dragenter", dragOver, false);
         dropArea.addEventListener("dragleave", dragLeave, false);
         dropArea.addEventListener("dragover", dragOver, false);
         dropArea.addEventListener("drop", drop, false);
 
         scope.$on('$destroy', function () {
+          dropArea.removeEventListener("click", clickArea, false);
+          dropArea.removeEventListener("touchstart", clickArea, false);
           dropArea.removeEventListener("dragenter", dragOver, false);
           dropArea.removeEventListener("dragleave", dragLeave, false);
           dropArea.removeEventListener("dragover", dragOver, false);
