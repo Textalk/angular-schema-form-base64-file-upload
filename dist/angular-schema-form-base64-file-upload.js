@@ -50,7 +50,6 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
         scope.ngModel = ngModel;
         scope.dropAreaHover = false;
         scope.file = undefined;
-        scope.fileImagePreview = '';
         scope.fileError = false;
         scope.dropText = base64FileUploadConfig.dropText || 'Click here or drop files to upload';
 
@@ -106,8 +105,9 @@ angular.module('angularSchemaFormBase64FileUpload').directive('base64FileUpload'
             $timeout(function() {
               scope.loadingFile = false;
             }, 0);
-
-            ngModel.$setViewValue(e.target.result);
+            
+            var prefix = 'file:' + file.name + ';';
+            ngModel.$setViewValue(prefix + e.target.result);
           };
 
           reader.readAsDataURL(file);
