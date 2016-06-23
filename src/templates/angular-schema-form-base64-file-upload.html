@@ -2,7 +2,7 @@
   <label class="control-label" ng-hide="form.notitle">{{form.title}}</label>
   <div base64-file-upload="form" sf-field-model schema-validate="form">
     <input type="file" class="base64-file--input" style="visibility:hidden;position:absolute;top:0;left:0;" ng-disabled="hasFile"/>
-    <button class="base64-file--drop-area" ng-class="{'file-hovering': dropAreaHover, 'has-file': hasFile}">
+    <button type="button" class="base64-file--drop-area" ng-class="{'file-hovering': dropAreaHover, 'has-file': hasFile}">
 
       <div class="base64-file--file" ng-show="hasFile">
         <div class="base64-file--file-preview"
